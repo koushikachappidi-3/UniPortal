@@ -15,8 +15,16 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/register", "/h2-console/**").permitAll()
-                        .requestMatchers("/dashboard").authenticated()
+                        .requestMatchers(
+                                "/",
+                                "/login",
+                                "/register",
+                                "/h2-console/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+                        .requestMatchers("/dashboard", "/api/v1/**").authenticated()
                         .requestMatchers("/courses/new", "/courses/delete/**").hasRole("ADMIN")
                         .requestMatchers("/courses").hasAnyRole("ADMIN", "STUDENT")
                         .anyRequest().authenticated()
@@ -30,7 +38,7 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/")
                         .permitAll()
                 )
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**", "/api/v1/**"))
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
         return http.build();
