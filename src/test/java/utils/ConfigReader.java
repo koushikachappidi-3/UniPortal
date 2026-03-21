@@ -5,7 +5,7 @@ import java.util.Properties;
 
 public class ConfigReader {
 
-    private static Properties properties = new Properties();
+    private static final Properties properties = new Properties();
 
     static {
         try {
@@ -26,6 +26,10 @@ public class ConfigReader {
     }
 
     public static String get(String key) {
-        return properties.getProperty(key);
+        String value = properties.getProperty(key);
+        if (value == null || value.isBlank()) {
+            throw new IllegalStateException("Missing required config key: " + key);
+        }
+        return value;
     }
 }

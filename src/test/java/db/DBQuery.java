@@ -6,8 +6,7 @@ import java.sql.ResultSet;
 
 public class DBQuery {
 
-    public static int getCount(String table) throws Exception {
-        String sql = "SELECT COUNT(*) FROM student_mgmt." + table;
+    private static int getCountForQuery(String sql) throws Exception {
         try (Connection conn = DBUtils.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -17,27 +16,40 @@ public class DBQuery {
         }
     }
 
-    public static boolean studentExists(int studentId) throws Exception {
-        String sql = "SELECT 1 FROM student_mgmt.students WHERE student_id = ?";
+    public static int getUserCount() throws Exception {
+        return getCountForQuery("SELECT COUNT(*) FROM app_user");
+    }
+
+    public static int getCourseCount() throws Exception {
+        return getCountForQuery("SELECT COUNT(*) FROM course");
+    }
+
+    public static int getEnrollmentCount() throws Exception {
+        return getCountForQuery("SELECT COUNT(*) FROM enrollment");
+    }
+
+    public static boolean appUserExists(long userId) throws Exception {
+        String sql = "SELECT 1 FROM app_user WHERE id = ?";
         try (Connection conn = DBUtils.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, studentId);
+            ps.setLong(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
             }
         }
     }
 
-    //
-    public static int getAnyStudentId() throws Exception {
-        String sql = "SELECT student_id FROM student_mgmt.students LIMIT 1";
+    public static long getAnyStudentUserId() throws Exception {
+        String sql = "SELECT id FROM app_user WHERE role = 'STUDENT' ORDER BY id LIMIT 1";
         try (Connection conn = DBUtils.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
-            rs.next();
-            return rs.getInt(1);
+            if (!rs.next()) {
+                throw new IllegalStateException("No STUDENT user found in app_user");
+            }
+            return rs.getLong(1);
         }
     }
 }

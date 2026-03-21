@@ -9,15 +9,15 @@ import java.sql.SQLException;
 public class DBUtils {
 
     public static Connection getConnection() {
-        try {
-            String url = ConfigReader.get("db.url");
-            String user = ConfigReader.get("db.user");
-            String password = ConfigReader.get("db.password");
+        String url = ConfigReader.get("db.url");
+        String user = ConfigReader.get("db.user");
+        String password = ConfigReader.get("db.password");
 
+        try {
             return DriverManager.getConnection(url, user, password);
 
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to connect to PostgreSQL", e);
+            throw new RuntimeException("Failed to connect to PostgreSQL at " + url + " as user " + user, e);
         }
     }
 }

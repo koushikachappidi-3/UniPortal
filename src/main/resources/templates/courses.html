@@ -12,12 +12,17 @@
 <div th:if="${isAdmin}">
   <h3>➕ Add a Course (Admin)</h3>
 
-  <form th:action="@{/courses/new}" method="post">
+  <form th:action="@{/courses/new}" th:object="${courseRequest}" method="post">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
-    <input type="text" name="code" placeholder="Course Code" required />
-    <input type="text" name="name" placeholder="Course Name" required />
-    <input type="text" name="professor" placeholder="Professor" required />
+    <input type="text" th:field="*{code}" placeholder="Course Code" />
+    <span th:if="${#fields.hasErrors('code')}" th:errors="*{code}" style="color:red;"></span>
+
+    <input type="text" th:field="*{name}" placeholder="Course Name" />
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;"></span>
+
+    <input type="text" th:field="*{professor}" placeholder="Professor" />
+    <span th:if="${#fields.hasErrors('professor')}" th:errors="*{professor}" style="color:red;"></span>
 
     <button type="submit">Add</button>
   </form>
