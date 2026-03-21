@@ -1,16 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UniPortal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
 </head>
 <body>
-<h1>UniPortal is LIVE 🚀</h1>
+<div class="page">
+    <div class="container">
+        <header class="app-header">
+            <div>
+                <h1 class="app-title">UniPortal</h1>
+                <p class="app-subtitle">University portal for courses and enrollments</p>
+            </div>
+        </header>
 
-<a th:href="@{/login}">
-    <button>Login</button>
-</a>
-<a href="/register">Create Account</a>
-
+        <div class="card">
+            <h2>Welcome</h2>
+            <p class="helper-text">Sign in to manage courses, enrollments, and your dashboard.</p>
+            <div class="actions">
+                <a class="btn btn-primary" th:href="@{/login}">Login</a>
+                <a class="btn btn-secondary" th:href="@{/register}">Create Account</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

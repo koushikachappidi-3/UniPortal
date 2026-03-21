@@ -22,7 +22,11 @@ public class SecurityConfig {
                                 "/h2-console/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/v3/api-docs/**"
+                                "/v3/api-docs/**",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**",
+                                "/webjars/**"
                         ).permitAll()
                         .requestMatchers("/dashboard", "/api/v1/**").authenticated()
                         .requestMatchers("/courses/new", "/courses/delete/**").hasRole("ADMIN")

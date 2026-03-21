@@ -1,38 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Courses</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
 </head>
 <body>
+<div class="page">
+    <div class="container">
+        <header class="app-header">
+            <div>
+                <h1 class="app-title">UniPortal</h1>
+                <p class="app-subtitle">My Enrollments</p>
+            </div>
+        </header>
 
-<h2>📘 My Enrolled Courses</h2>
+        <h2>My Enrolled Courses</h2>
 
-<div th:if="${#lists.isEmpty(enrollments)}">
-    <p>You are not enrolled in any courses yet.</p>
+        <div class="empty-state" th:if="${#lists.isEmpty(enrollments)}">
+            You are not enrolled in any courses yet.
+        </div>
+
+        <div th:if="${!#lists.isEmpty(enrollments)}">
+            <div class="card" th:each="en : ${enrollments}">
+                <p>
+                    <strong th:text="${en.course.code}">CODE</strong>
+                    - <span th:text="${en.course.name}">Course Name</span>
+                    (Prof: <span th:text="${en.course.professor}">Professor</span>)
+                </p>
+                <p class="helper-text">
+                    Enrolled on:
+                    <span th:text="${#temporals.format(en.enrolledAt, 'MMM dd, yyyy HH:mm')}"></span>
+                </p>
+
+                <form class="inline-form" th:action="@{/courses/{id}/drop(id=${en.course.id})}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <button type="submit" class="btn btn-secondary">Drop</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a class="btn btn-secondary" th:href="@{/courses}">Back to Courses</a>
+            <a class="btn btn-secondary" th:href="@{/dashboard}">Back to Dashboard</a>
+        </div>
+    </div>
 </div>
-
-<ul th:if="${!#lists.isEmpty(enrollments)}">
-    <li th:each="en : ${enrollments}">
-        <strong th:text="${en.course.code}">CODE</strong>
-        - <span th:text="${en.course.name}">Course Name</span>
-        (Prof: <span th:text="${en.course.professor}">Professor</span>)
-        <br/>
-        Enrolled on: <span th:text="${#temporals.format(en.enrolledAt, 'MMM dd, yyyy HH:mm')}"></span>
-
-
-        <form th:action="@{/courses/{id}/drop(id=${en.course.id})}" method="post" style="display:inline;">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <button type="submit">Drop</button>
-        </form>
-
-        <hr/>
-    </li>
-</ul>
-
-<a th:href="@{/courses}">⬅ Back to Courses</a>
-<br/><br/>
-<a th:href="@{/dashboard}">⬅ Back to Dashboard</a>
 
 </body>
 </html>

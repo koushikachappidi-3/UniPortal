@@ -1,32 +1,46 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
 </head>
 <body>
+<div class="page">
+    <div class="container">
+        <header class="app-header">
+            <div>
+                <h1 class="app-title">UniPortal</h1>
+                <p class="app-subtitle">Create your student account</p>
+            </div>
+        </header>
 
-<h2>Create Student Account</h2>
+        <div class="card">
+            <h2>Create Student Account</h2>
 
-<form th:action="@{/register}" th:object="${registerRequest}" method="post">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <form class="form-grid" th:action="@{/register}" th:object="${registerRequest}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
-    <div>
-        <label for="username">Username</label>
-        <input id="username" type="text" th:field="*{username}" placeholder="Username" required />
-        <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color:red;"></div>
+                <div>
+                    <label for="username">Username</label>
+                    <input id="username" type="text" th:field="*{username}" placeholder="Username" required>
+                    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="field-error"></div>
+                </div>
+
+                <div>
+                    <label for="password">Password</label>
+                    <input id="password" type="password" th:field="*{password}" placeholder="Password" required>
+                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="field-error"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+
+            <p class="helper-text">Already have an account? <a th:href="@{/login}">Login</a></p>
+        </div>
     </div>
-
-    <div>
-        <label for="password">Password</label>
-        <input id="password" type="password" th:field="*{password}" placeholder="Password" required />
-        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red;"></div>
-    </div>
-
-    <button type="submit">Register</button>
-</form>
-
-<a th:href="@{/login}">Already have an account? Login</a>
+</div>
 
 </body>
 </html>
