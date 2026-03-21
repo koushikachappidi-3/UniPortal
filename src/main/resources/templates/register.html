@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>UniPortal - Register</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
 </head>
 <body>
-<div class="page">
+<div class="page auth-page">
     <div class="container">
         <header class="app-header">
             <div>
@@ -31,6 +31,7 @@
                 <div>
                     <label for="password">Password</label>
                     <input id="password" type="password" th:field="*{password}" placeholder="Password" required>
+                    <p class="helper-text">Password must be at least 8 characters with uppercase, lowercase, number, and special character.</p>
                     <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="field-error"></div>
                 </div>
 

@@ -9,7 +9,9 @@ import org.university.repo.AppUserRepository;
 import org.university.repo.CourseRepository;
 import org.university.repo.EnrollmentRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EnrollmentService {
@@ -59,5 +61,18 @@ public class EnrollmentService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         return enrollmentRepo.findAllByStudentId(student.getId());
+    }
+
+    public Map<Long, Long> enrollmentCountsForCourses(List<Long> courseIds) {
+        Map<Long, Long> counts = new HashMap<>();
+        for (Long id : courseIds) {
+            counts.put(id, enrollmentRepo.countByCourseId(id));
+        }
+        return counts;
+    }
+
+    @Transactional
+    public void dropAllForCourse(Long courseId) {
+        enrollmentRepo.deleteAllByCourseId(courseId);
     }
 }

@@ -9,21 +9,21 @@
 <body>
 <div class="page">
     <div class="container">
-        <header class="app-header">
-            <div>
-                <h1 class="app-title">UniPortal</h1>
-                <p class="app-subtitle">University portal for courses and enrollments</p>
-            </div>
-        </header>
+        <section class="card hero">
+            <h1 class="hero-title">UniPortal</h1>
+            <p class="hero-tagline">Your university course management portal</p>
 
-        <div class="card">
-            <h2>Welcome</h2>
-            <p class="helper-text">Sign in to manage courses, enrollments, and your dashboard.</p>
             <div class="actions">
                 <a class="btn btn-primary" th:href="@{/login}">Login</a>
-                <a class="btn btn-secondary" th:href="@{/register}">Create Account</a>
+                <a class="btn btn-secondary" th:href="@{/register}">Register</a>
             </div>
-        </div>
+
+            <ul class="feature-list">
+                <li>Browse and enroll in courses</li>
+                <li>Track your enrolled courses</li>
+                <li>Secure role-based access</li>
+            </ul>
+        </section>
     </div>
 </div>
 
