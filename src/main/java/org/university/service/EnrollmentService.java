@@ -1,7 +1,9 @@
 package org.university.service;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.university.event.EnrollmentEvent;
 import org.university.model.AppUser;
 import org.university.model.Course;
 import org.university.model.Enrollment;
@@ -9,6 +11,7 @@ import org.university.repo.AppUserRepository;
 import org.university.repo.CourseRepository;
 import org.university.repo.EnrollmentRepository;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,13 +22,16 @@ public class EnrollmentService {
     private final EnrollmentRepository enrollmentRepo;
     private final CourseRepository courseRepo;
     private final AppUserRepository userRepo;
+    private final ApplicationEventPublisher eventPublisher;
 
     public EnrollmentService(EnrollmentRepository enrollmentRepo,
                              CourseRepository courseRepo,
-                             AppUserRepository userRepo) {
+                             AppUserRepository userRepo,
+                             ApplicationEventPublisher eventPublisher) {
         this.enrollmentRepo = enrollmentRepo;
         this.courseRepo = courseRepo;
         this.userRepo = userRepo;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional
@@ -42,6 +48,15 @@ public class EnrollmentService {
         }
 
         enrollmentRepo.save(new Enrollment(student, course));
+
+        eventPublisher.publishEvent(new EnrollmentEvent(
+                this,
+                username,
+                course.getId(),
+                course.getCode(),
+                "ENROLLED",
+                LocalDateTime.now()
+        ));
     }
 
     @Transactional
@@ -54,6 +69,15 @@ public class EnrollmentService {
                 .orElseThrow(() -> new IllegalStateException("Enrollment not found"));
 
         enrollmentRepo.delete(enrollment);
+
+        eventPublisher.publishEvent(new EnrollmentEvent(
+                this,
+                username,
+                courseId,
+                enrollment.getCourse().getCode(),
+                "DROPPED",
+                LocalDateTime.now()
+        ));
     }
 
     public List<Enrollment> myEnrollments(String username) {
