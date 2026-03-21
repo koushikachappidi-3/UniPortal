@@ -1,27 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UniPortal - Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+    <script defer th:src="@{/js/ui.js}" src="/js/ui.js"></script>
 </head>
 <body>
-<div class="page">
+<div class="page inner-page">
     <div class="container">
-        <header class="app-header">
-            <div>
-                <h1 class="app-title">UniPortal</h1>
-                <p class="app-subtitle">Dashboard</p>
-            </div>
-        </header>
+        <div th:replace="~{fragments/header :: appHeader('Dashboard', ${currentPage}, ${isAdmin})}"></div>
 
         <div class="card">
-            <h2 th:text="'Welcome, ' + ${#authentication.name} + '!'">Welcome!</h2>
+            <h2>
+                <span th:text="'Welcome, ' + ${#authentication.name} + '!'">Welcome!</span>
+                <span th:if="${role == 'ADMIN'}" class="role-badge role-admin" th:text="${role}">ADMIN</span>
+            </h2>
+
+            <div class="stats-grid" th:if="${isAdmin}">
+                <div class="stat-card">
+                    <div class="stat-label">Total Students</div>
+                    <div class="stat-value" th:text="${totalStudents}">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Courses</div>
+                    <div class="stat-value" th:text="${totalCourses}">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Enrollments</div>
+                    <div class="stat-value" th:text="${totalEnrollments}">0</div>
+                </div>
+            </div>
 
             <div class="actions">
-                <a class="btn btn-primary" th:href="@{/courses}">View Courses</a>
-                <a class="btn btn-secondary" sec:authorize="hasRole('STUDENT')" th:href="@{/my-courses}">My Courses</a>
+                <a class="btn btn-primary" th:href="@{/courses}">Manage Courses</a>
             </div>
         </div>
 

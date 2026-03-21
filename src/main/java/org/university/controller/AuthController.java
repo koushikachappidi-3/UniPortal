@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import org.university.dto.RegisterRequest;
 import org.university.model.AppUser;
@@ -43,10 +44,16 @@ public class AuthController {
     public String registerUser(
             @Valid @ModelAttribute("registerRequest") RegisterRequest request,
             BindingResult result,
-            Model model) {
+            RedirectAttributes redirectAttributes) {
 
         // Validation errors (including strong password)
         if (result.hasErrors()) {
+            return "register";
+        }
+
+        // Confirm password check
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            result.rejectValue("confirmPassword", "error.confirmPassword", "Passwords do not match");
             return "register";
         }
 
@@ -72,6 +79,7 @@ public class AuthController {
 
         userRepo.save(user);
 
+        redirectAttributes.addFlashAttribute("successMessage", "Account created successfully! Please log in.");
         return "redirect:/login";
     }
 }

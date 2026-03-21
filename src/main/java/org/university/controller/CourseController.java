@@ -35,6 +35,8 @@ public class CourseController {
     public String courses(Model model, Authentication auth,
                           @RequestParam(required = false) String search) {
 
+        model.addAttribute("currentPage", "courses");
+
         // Resolve course list — filtered or full
         boolean isSearchActive = search != null && !search.isBlank();
         List<Course> courses = isSearchActive

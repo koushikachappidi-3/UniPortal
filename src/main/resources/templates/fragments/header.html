@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="appHeader(subtitle, currentPage, isAdmin)">
+    <header class="app-header">
+        <div>
+            <h1 class="app-title">UniPortal</h1>
+            <p class="app-subtitle" th:text="${subtitle}">Page</p>
+        </div>
+    </header>
+
+    <nav class="nav app-nav">
+        <a class="btn btn-secondary"
+           th:classappend="${currentPage == 'dashboard'} ? ' active'"
+           th:href="@{/dashboard}">Dashboard</a>
+        <a class="btn btn-secondary"
+           th:classappend="${currentPage == 'courses'} ? ' active'"
+           th:href="@{/courses}">Courses</a>
+        <a class="btn btn-secondary"
+           th:if="${!isAdmin}"
+           th:classappend="${currentPage == 'my-courses'} ? ' active'"
+           th:href="@{/my-courses}">My Courses</a>
+    </nav>
+</th:block>
+</body>
+</html>
+

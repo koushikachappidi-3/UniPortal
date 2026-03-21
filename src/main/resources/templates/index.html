@@ -7,24 +7,32 @@
     <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
 </head>
 <body>
-<div class="page">
-    <div class="container">
-        <section class="card hero">
-            <h1 class="hero-title">UniPortal</h1>
-            <p class="hero-tagline">Your university course management portal</p>
+<div class="landing-page">
+    <section class="landing-hero">
+        <div class="landing-hero-logomark">U</div>
+        <h1 class="landing-title">UniPortal</h1>
+        <p class="landing-tagline">Your university course management portal</p>
 
-            <div class="actions">
-                <a class="btn btn-primary" th:href="@{/login}">Login</a>
-                <a class="btn btn-secondary" th:href="@{/register}">Register</a>
-            </div>
+        <div class="landing-cta">
+            <a class="btn btn-primary" th:href="@{/login}">Login</a>
+            <a class="btn btn-secondary" th:href="@{/register}">Register</a>
+        </div>
 
-            <ul class="feature-list">
-                <li>Browse and enroll in courses</li>
-                <li>Track your enrolled courses</li>
-                <li>Secure role-based access</li>
-            </ul>
-        </section>
-    </div>
+        <div class="landing-feature-grid">
+            <article class="landing-feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Browse and enroll in courses</h3>
+            </article>
+            <article class="landing-feature-card">
+                <div class="feature-icon">✅</div>
+                <h3>Track your enrolled courses</h3>
+            </article>
+            <article class="landing-feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure role-based access</h3>
+            </article>
+        </div>
+    </section>
 </div>
 
 </body>

@@ -5,21 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UniPortal - Register</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+    <script defer th:src="@{/js/ui.js}" src="/js/ui.js"></script>
 </head>
 <body>
 <div class="page auth-page">
-    <div class="container">
-        <header class="app-header">
-            <div>
-                <h1 class="app-title">UniPortal</h1>
-                <p class="app-subtitle">Create your student account</p>
-            </div>
-        </header>
+    <div class="auth-shell">
+        <div class="card auth-card">
+            <div class="auth-logomark" aria-hidden="true">U</div>
+            <div class="auth-brand">UniPortal</div>
+            <p class="auth-subtitle">Create your student account</p>
 
-        <div class="card">
-            <h2>Create Student Account</h2>
-
-            <form class="form-grid" th:action="@{/register}" th:object="${registerRequest}" method="post">
+            <form id="registerForm" class="form-grid" th:action="@{/register}" th:object="${registerRequest}" method="post">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
                 <div>
@@ -31,17 +27,49 @@
                 <div>
                     <label for="password">Password</label>
                     <input id="password" type="password" th:field="*{password}" placeholder="Password" required>
-                    <p class="helper-text">Password must be at least 8 characters with uppercase, lowercase, number, and special character.</p>
+                    <p class="helper-text password-hint">Password must be at least 8 characters with uppercase, lowercase, number, and special character.</p>
                     <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="field-error"></div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Register</button>
+                <div>
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input id="confirmPassword" type="password" th:field="*{confirmPassword}" placeholder="Confirm Password" required>
+                    <div id="confirmPasswordClientError" class="field-error" style="display:none;">Passwords do not match</div>
+                    <div th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="field-error"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
             </form>
 
-            <p class="helper-text">Already have an account? <a th:href="@{/login}">Login</a></p>
+            <p class="helper-text auth-footer-link">Already have an account? <a th:href="@{/login}">Login</a></p>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var form = document.getElementById('registerForm');
+        var password = document.getElementById('password');
+        var confirmPassword = document.getElementById('confirmPassword');
+        var error = document.getElementById('confirmPasswordClientError');
+
+        function validatePasswords() {
+            var match = password.value === confirmPassword.value;
+            var shouldShow = confirmPassword.value.length > 0 && !match;
+            error.style.display = shouldShow ? 'block' : 'none';
+            return match;
+        }
+
+        confirmPassword.addEventListener('input', validatePasswords);
+        password.addEventListener('input', validatePasswords);
+
+        form.addEventListener('submit', function (event) {
+            if (!validatePasswords()) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

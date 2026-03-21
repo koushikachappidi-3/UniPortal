@@ -37,7 +37,7 @@ public class EnrollmentController {
                        RedirectAttributes redirectAttrs) {
         try {
             enrollmentService.drop(auth.getName(), courseId);
-            redirectAttrs.addFlashAttribute("successMessage", "Successfully dropped the course.");
+            redirectAttrs.addFlashAttribute("warningMessage", "Successfully dropped the course.");
         } catch (IllegalStateException | IllegalArgumentException e) {
             redirectAttrs.addFlashAttribute("errorMessage", e.getMessage());
         }
@@ -47,6 +47,7 @@ public class EnrollmentController {
     // View my enrollments
     @GetMapping("/my-courses")
     public String myCourses(Authentication auth, Model model) {
+        model.addAttribute("currentPage", "my-courses");
         model.addAttribute("enrollments", enrollmentService.myEnrollments(auth.getName()));
         return "my-courses";
     }
