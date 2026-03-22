@@ -109,7 +109,20 @@ brew services stop postgresql@16
 ## 5. Features and Project Walkthrough
 
 <!-- SCREENSHOT: Landing page hero -->
+*Home page — visit http://localhost:8080 to access UniPortal. Click Login to sign in or Register to create a new student account.*
+
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/61ffa4dc-5e0a-4e72-bf1e-f561742d0c41" />
+
 <!-- SCREENSHOT: Login page -->
+*Login page — enter your credentials to access the portal. Default credentials are listed in the Installation Guide.*
+
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/40f27497-a152-4b62-8337-7202d2f7eb1a" />
+
+*Register page — create a new student account with username and password. 
+Real-time client-side validation ensures passwords match before submission.*
+
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/d1534490-a1d9-4425-9e2f-3380aa0882e9" />
+
 
 ### Admin Features
 
@@ -120,7 +133,16 @@ brew services stop postgresql@16
 - Drop-all-enrollments action per course
 
 <!-- SCREENSHOT: Admin dashboard with stat cards -->
+*Admin dashboard — shows real-time statistics including total students, courses, and enrollments across the platform.*
+
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/1481c407-97a1-4adf-b5f6-d3c61317d5d2" />
+
 <!-- SCREENSHOT: Admin courses table with enrollment counts -->
+*Admin course management — view enrollment counts per course, add new courses, drop all enrollments for a course, or delete courses.*
+
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/5c73fb47-53cb-4d8e-9cf9-27d9510ba231" />
+
+<img width="1470" height="939" alt="image" src="https://github.com/user-attachments/assets/7421e7c7-78b3-42ee-b8d1-1cbcebd954fe" />
 
 ### Student Features
 
@@ -130,15 +152,25 @@ brew services stop postgresql@16
 - "My Enrolled Courses" page with enrollment timestamps
 - Toast notifications for success/warning/error feedback
 
-<!-- SCREENSHOT: Student course cards view -->
-<!-- SCREENSHOT: My Enrolled Courses page -->
-<!-- SCREENSHOT: Toast notification -->
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/3de2267e-c42c-4260-a190-544428b241bc" />
 
+<!-- SCREENSHOT: Student course cards view -->
+*Student course browser — browse all available courses as cards. Click Enroll to join a course or Drop to leave one.*
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/802824c3-2c03-4f39-ad21-cb2d63bbc99d" />
+
+<!-- SCREENSHOT: My Enrolled Courses page -->
+*My Enrolled Courses — view all courses you are currently enrolled in along with enrollment timestamps.*
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/ef831233-706a-4f9f-aaec-f5265bb8f2d8" />
 ### API Documentation
 
 - OpenAPI/Swagger UI is available for API exploration.
 
 <!-- SCREENSHOT: Swagger UI -->
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/91925c7a-17dd-4a9e-850b-5a7a50ad3ee6" />
+
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/fda27bf9-b865-412e-bd2e-d365984d3201" />
+
+
 
 ## 6. Architecture Diagram
 
@@ -228,6 +260,19 @@ Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 | `GET` | `/api/v1/enrollments/my-courses` | Authenticated user | Return current user's enrollments |
 | `GET` | `/api/v1/users/me` | Authenticated user | Return current user profile (without password hash) |
 
+*Swagger UI — interactive REST API documentation at http://localhost:8080/swagger-ui/index.html. 
+The GET /api/v1/courses endpoint returns all courses with their IDs, 
+which can then be used in other endpoints like GET /api/v1/courses/{id} 
+or DELETE /api/v1/enrollments/drop/{courseId}.*
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/42ea872b-fd1d-4bc5-813e-69d29cbbc006" />
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/d9f565f9-8250-4691-9c20-b91031f71bf0" />
+
+
+
+> **Note:** All `/api/v1/**` endpoints require authentication. To test via Swagger UI, log in at `http://localhost:8080/login` first in the same browser session, then return to Swagger UI and execute requests.
+
+> **Tip:** To find valid IDs for path parameters, first call `GET /api/v1/courses` or `GET /api/v1/users/me` to retrieve existing resource IDs. Use those IDs in endpoints like `GET /api/v1/courses/{id}` or `DELETE /api/v1/enrollments/drop/{courseId}`.
+
 ## 9. Test Suite
 
 ### Test categories
@@ -259,5 +304,8 @@ Test reports are generated in:
 - `target/surefire-reports/`
 
 Current status:
+*Test suite results — 14 tests passing across unit, integration, 
+and DB smoke test layers. Run with: mvn clean test*
+<img width="1396" height="418" alt="image" src="https://github.com/user-attachments/assets/3b3a2a8b-84c9-4b41-b813-d41cfad9693c" />
 
 - **14 tests, 0 failures**
